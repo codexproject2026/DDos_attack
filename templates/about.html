@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>About | XAI Shield</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+          rel="stylesheet">
+
+    <style>
+
+        /* =====================================================
+           ROOT COLORS
+        ===================================================== */
+
+        :root{
+            --primary:#8b5cf6;
+            --primary-dark:#6d28d9;
+            --primary-light:#c4b5fd;
+
+            --cyan:#38bdf8;
+            --cyan-light:#7dd3fc;
+
+            --text:#f8f7ff;
+            --text-soft:#ddd9eb;
+            --muted:#c7c1d5;
+
+            --card:rgba(66,58,94,.76);
+            --border:rgba(221,214,254,.23);
+        }
+
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        html{
+            scroll-behavior:smooth;
+        }
+
+        body{
+            min-height:100vh;
+
+            font-family:"Segoe UI", Arial, sans-serif;
+
+            color:var(--text);
+
+            /* ABOUT BACKGROUND IMAGE */
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(41,38,61,.67),
+                    rgba(48,44,73,.58),
+                    rgba(55,49,79,.64)
+                ),
+                url("{{ url_for('static', filename='images/about.jpg') }}");
+
+            background-size:cover;
+            background-position:center;
+            background-repeat:no-repeat;
+            background-attachment:fixed;
+
+            overflow-x:hidden;
+        }
+
+        a{
+            text-decoration:none;
+        }
+
+
+        /* =====================================================
+           SCROLLBAR
+        ===================================================== */
+
+        ::-webkit-scrollbar{
+            width:8px;
+        }
+
+        ::-webkit-scrollbar-track{
+            background:#302c49;
+        }
+
+        ::-webkit-scrollbar-thumb{
+            background:linear-gradient(
+                #a78bfa,
+                #7c3aed
+            );
+
+            border-radius:20px;
+        }
+
+
+        /* =====================================================
+           BACKGROUND EFFECTS
+        ===================================================== */
+
+        .background-effects{
+            position:fixed;
+            inset:0;
+
+            z-index:0;
+
+            overflow:hidden;
+            pointer-events:none;
+        }
+
+
+        /* GRID */
+
+        .grid{
+            position:absolute;
+            inset:0;
+
+            background-image:
+                linear-gradient(
+                    rgba(196,181,253,.035) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(196,181,253,.035) 1px,
+                    transparent 1px
+                );
+
+            background-size:60px 60px;
+
+            opacity:.45;
+
+            animation:gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove{
+
+            from{
+                transform:translateY(0);
+            }
+
+            to{
+                transform:translateY(60px);
+            }
+        }
+
+
+        /* GLOW */
+
+        .glow{
+            position:absolute;
+
+            border-radius:50%;
+
+            filter:blur(110px);
+        }
+
+        .glow-one{
+            width:430px;
+            height:430px;
+
+            right:-150px;
+            top:120px;
+
+            background:rgba(139,92,246,.18);
+
+            animation:glowFloat 8s ease-in-out infinite;
+        }
+
+        .glow-two{
+            width:360px;
+            height:360px;
+
+            left:-150px;
+            bottom:20px;
+
+            background:rgba(56,189,248,.10);
+
+            animation:glowFloat 10s ease-in-out infinite reverse;
+        }
+
+        @keyframes glowFloat{
+
+            0%,100%{
+                transform:translate(0,0);
+            }
+
+            50%{
+                transform:translate(35px,-30px);
+            }
+        }
+
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        .navbar{
+            min-height:82px;
+
+            padding:0 6%;
+
+            position:relative;
+            z-index:1000;
+
+            background:rgba(48,44,73,.66);
+
+            backdrop-filter:blur(20px);
+            -webkit-backdrop-filter:blur(20px);
+
+            border-bottom:
+                1px solid
+                rgba(196,181,253,.20);
+
+            box-shadow:
+                0 8px 35px
+                rgba(25,20,45,.15);
+        }
+
+        .navbar::after{
+            content:"";
+
+            position:absolute;
+
+            left:0;
+            bottom:-1px;
+
+            width:100%;
+            height:1px;
+
+            background:linear-gradient(
+                90deg,
+                transparent,
+                #8b5cf6,
+                #38bdf8,
+                transparent
+            );
+
+            opacity:.45;
+        }
+
+
+        /* =====================================================
+           BRAND
+        ===================================================== */
+
+        .navbar-brand{
+            display:flex;
+            align-items:center;
+
+            gap:12px;
+
+            color:#fff !important;
+
+            font-size:22px;
+            font-weight:750;
+        }
+
+        .brand-icon{
+            position:relative;
+
+            width:44px;
+            height:44px;
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+
+            border-radius:13px;
+
+            background:linear-gradient(
+                135deg,
+                #c4b5fd,
+                #8b5cf6,
+                #6d28d9
+            );
+
+            color:#fff;
+
+            box-shadow:
+                0 8px 25px
+                rgba(109,40,217,.32);
+
+            transition:.4s ease;
+        }
+
+        .brand-icon::after{
+            content:"";
+
+            position:absolute;
+
+            inset:-5px;
+
+            border:
+                1px solid
+                rgba(196,181,253,.28);
+
+            border-radius:16px;
+
+            animation:logoPulse 2.5s infinite;
+        }
+
+        @keyframes logoPulse{
+
+            0%,100%{
+                transform:scale(.95);
+                opacity:.6;
+            }
+
+            50%{
+                transform:scale(1.13);
+                opacity:0;
+            }
+        }
+
+        .navbar-brand:hover .brand-icon{
+            transform:rotate(-8deg) scale(1.06);
+        }
+
+        .brand-icon i{
+            font-size:21px;
+        }
+
+        .brand-dot{
+            color:#c4b5fd;
+        }
+
+
+        /* =====================================================
+           NAV LINKS
+        ===================================================== */
+
+        .navbar-nav{
+            align-items:center;
+            gap:8px;
+        }
+
+        .nav-link{
+            position:relative;
+
+            padding:10px 15px !important;
+
+            color:#e2ddee !important;
+
+            font-size:14px;
+            font-weight:500;
+
+            transition:.3s ease;
+        }
+
+        .nav-link::after{
+            content:"";
+
+            position:absolute;
+
+            left:50%;
+            bottom:3px;
+
+            width:0;
+            height:2px;
+
+            transform:translateX(-50%);
+
+            border-radius:10px;
+
+            background:linear-gradient(
+                90deg,
+                #c4b5fd,
+                #38bdf8
+            );
+
+            transition:.3s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active{
+            color:#fff !important;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after{
+            width:28px;
+        }
+
+
+        /* ADMIN */
+
+        .admin-link{
+            margin-left:8px;
+
+            padding:9px 17px !important;
+
+            border:
+                1px solid
+                rgba(196,181,253,.30);
+
+            border-radius:10px;
+
+            background:
+                rgba(139,92,246,.16);
+        }
+
+        .admin-link::after{
+            display:none;
+        }
+
+        .admin-link:hover{
+            background:
+                rgba(139,92,246,.28);
+
+            border-color:
+                rgba(196,181,253,.60);
+
+            transform:translateY(-2px);
+        }
+
+
+        /* =====================================================
+           ABOUT PAGE
+        ===================================================== */
+
+        .page{
+            position:relative;
+            z-index:2;
+
+            min-height:calc(100vh - 82px);
+
+            padding:70px 6% 80px;
+        }
+
+        .page-container{
+            max-width:1350px;
+            margin:auto;
+        }
+
+
+        /* =====================================================
+           TITLE
+        ===================================================== */
+
+        .title{
+            max-width:850px;
+
+            margin:
+                0 auto
+                55px;
+
+            text-align:center;
+        }
+
+        .page-tag{
+            display:inline-flex;
+            align-items:center;
+
+            gap:9px;
+
+            margin-bottom:18px;
+
+            padding:8px 15px;
+
+            border:
+                1px solid
+                rgba(221,214,254,.27);
+
+            border-radius:30px;
+
+            background:
+                rgba(69,60,98,.60);
+
+            backdrop-filter:blur(14px);
+
+            color:#ede9fe;
+
+            font-size:11px;
+            font-weight:650;
+
+            letter-spacing:1px;
+
+            animation:fadeUp .7s ease both;
+        }
+
+        .tag-dot{
+            width:7px;
+            height:7px;
+
+            border-radius:50%;
+
+            background:#c4b5fd;
+
+            box-shadow:
+                0 0 12px
+                rgba(196,181,253,.8);
+
+            animation:tagPulse 1.8s infinite;
+        }
+
+        @keyframes tagPulse{
+
+            0%,100%{
+                box-shadow:
+                    0 0 0 4px
+                    rgba(196,181,253,.14);
+            }
+
+            50%{
+                box-shadow:
+                    0 0 0 10px
+                    rgba(196,181,253,0);
+            }
+        }
+
+        .title h1{
+            margin:0;
+
+            font-size:clamp(40px,5vw,62px);
+
+            font-weight:800;
+
+            letter-spacing:-2px;
+
+            color:#fff;
+
+            text-shadow:
+                0 5px 25px
+                rgba(20,15,40,.20);
+
+            animation:
+                fadeUp .7s .1s ease both;
+        }
+
+        .title h1 span{
+            background:linear-gradient(
+                100deg,
+                #ddd6fe,
+                #a78bfa,
+                #7dd3fc
+            );
+
+            background-size:200% auto;
+
+            -webkit-background-clip:text;
+            background-clip:text;
+
+            color:transparent;
+
+            animation:
+                gradientMove 4s linear infinite;
+        }
+
+        @keyframes gradientMove{
+
+            to{
+                background-position:200% center;
+            }
+        }
+
+        .title p{
+            max-width:760px;
+
+            margin:18px auto 0;
+
+            color:#ded8e8;
+
+            font-size:15px;
+
+            line-height:1.85;
+
+            text-shadow:
+                0 2px 10px
+                rgba(20,15,40,.18);
+
+            animation:
+                fadeUp .7s .2s ease both;
+        }
+
+
+        /* =====================================================
+           OVERVIEW BAR
+        ===================================================== */
+
+        .overview-bar{
+            margin-bottom:25px;
+
+            padding:18px 25px;
+
+            display:grid;
+
+            grid-template-columns:
+                repeat(4,1fr);
+
+            gap:10px;
+
+            border:
+                1px solid
+                rgba(221,214,254,.22);
+
+            border-radius:17px;
+
+            background:
+                rgba(61,53,87,.64);
+
+            backdrop-filter:blur(18px);
+            -webkit-backdrop-filter:blur(18px);
+
+            box-shadow:
+                0 18px 45px
+                rgba(25,20,45,.16);
+        }
+
+        .overview-item{
+            position:relative;
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+
+            gap:11px;
+
+            padding:7px 15px;
+
+            color:#eeeaf5;
+
+            font-size:12px;
+            font-weight:600;
+        }
+
+        .overview-item:not(:last-child)::after{
+            content:"";
+
+            position:absolute;
+
+            right:0;
+
+            width:1px;
+            height:30px;
+
+            background:
+                rgba(221,214,254,.18);
+        }
+
+        .overview-item i{
+            color:#c4b5fd;
+
+            font-size:17px;
+        }
+
+
+        /* =====================================================
+           CARDS
+        ===================================================== */
+
+        .cards-grid{
+            display:grid;
+
+            grid-template-columns:
+                repeat(2,1fr);
+
+            gap:22px;
+        }
+
+        .card-custom{
+            position:relative;
+
+            min-height:250px;
+
+            padding:31px;
+
+            overflow:hidden;
+
+            border:
+                1px solid
+                rgba(221,214,254,.22);
+
+            border-radius:20px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(73,64,102,.74),
+                    rgba(50,44,74,.76)
+                );
+
+            backdrop-filter:blur(18px);
+            -webkit-backdrop-filter:blur(18px);
+
+            box-shadow:
+                0 18px 45px
+                rgba(25,20,45,.18);
+
+            opacity:0;
+
+            transform:translateY(25px);
+
+            transition:
+                opacity .7s ease,
+                transform .7s ease,
+                border-color .35s ease,
+                box-shadow .35s ease;
+        }
+
+        .card-custom.visible{
+            opacity:1;
+            transform:translateY(0);
+        }
+
+
+        /* CARD GLOW */
+
+        .card-custom::before{
+            content:"";
+
+            position:absolute;
+
+            top:-80px;
+            right:-80px;
+
+            width:180px;
+            height:180px;
+
+            border-radius:50%;
+
+            background:
+                rgba(167,139,250,.13);
+
+            transition:.45s ease;
+        }
+
+
+        /* TOP BORDER */
+
+        .card-custom::after{
+            content:"";
+
+            position:absolute;
+
+            top:0;
+            left:20%;
+
+            width:60%;
+            height:1px;
+
+            background:linear-gradient(
+                90deg,
+                transparent,
+                rgba(196,181,253,.75),
+                rgba(56,189,248,.55),
+                transparent
+            );
+
+            opacity:0;
+
+            transition:.4s;
+        }
+
+        .card-custom:hover{
+            transform:translateY(-8px);
+
+            border-color:
+                rgba(221,214,254,.52);
+
+            box-shadow:
+                0 28px 65px
+                rgba(25,20,45,.27);
+        }
+
+        .card-custom:hover::before{
+            transform:scale(1.7);
+        }
+
+        .card-custom:hover::after{
+            opacity:1;
+        }
+
+
+        /* =====================================================
+           CARD NUMBER
+        ===================================================== */
+
+        .card-number{
+            position:absolute;
+
+            right:25px;
+            top:20px;
+
+            color:
+                rgba(221,214,254,.15);
+
+            font-size:43px;
+            font-weight:800;
+
+            transition:.35s;
+        }
+
+        .card-custom:hover .card-number{
+            color:
+                rgba(221,214,254,.25);
+
+            transform:translateY(-3px);
+        }
+
+
+        /* =====================================================
+           ICON
+        ===================================================== */
+
+        .icon{
+            position:relative;
+
+            width:57px;
+            height:57px;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            margin-bottom:21px;
+
+            border:
+                1px solid
+                rgba(221,214,254,.17);
+
+            border-radius:14px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(167,139,250,.26),
+                    rgba(56,189,248,.12)
+                );
+
+            color:#ede9fe;
+
+            font-size:24px;
+
+            box-shadow:
+                0 8px 25px
+                rgba(38,29,68,.15);
+
+            transition:.4s ease;
+        }
+
+        .card-custom:hover .icon{
+            transform:
+                translateY(-4px)
+                rotate(-4deg);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(167,139,250,.40),
+                    rgba(56,189,248,.20)
+                );
+
+            box-shadow:
+                0 10px 30px
+                rgba(109,40,217,.22);
+        }
+
+
+        /* =====================================================
+           CARD CONTENT
+        ===================================================== */
+
+        .card-custom h4{
+            position:relative;
+
+            margin-bottom:12px;
+
+            color:#fff;
+
+            font-size:19px;
+            font-weight:700;
+        }
+
+        .card-custom p{
+            position:relative;
+
+            margin:0;
+
+            max-width:530px;
+
+            color:#d1cadb;
+
+            font-size:13px;
+
+            line-height:1.8;
+        }
+
+
+        /* =====================================================
+           CARD BADGE
+        ===================================================== */
+
+        .card-badge-custom{
+            position:relative;
+
+            display:inline-flex;
+            align-items:center;
+
+            gap:6px;
+
+            margin-top:18px;
+
+            padding:6px 10px;
+
+            border-radius:7px;
+
+            background:
+                rgba(167,139,250,.12);
+
+            border:
+                1px solid
+                rgba(221,214,254,.14);
+
+            color:#ddd6fe;
+
+            font-size:10px;
+            font-weight:600;
+        }
+
+
+        /* =====================================================
+           ANIMATIONS
+        ===================================================== */
+
+        @keyframes fadeUp{
+
+            from{
+                opacity:0;
+                transform:translateY(22px);
+            }
+
+            to{
+                opacity:1;
+                transform:translateY(0);
+            }
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media(max-width:992px){
+
+            .navbar{
+                padding:14px 5%;
+            }
+
+            .navbar-collapse{
+                margin-top:15px;
+
+                padding:15px;
+
+                border:
+                    1px solid
+                    rgba(221,214,254,.20);
+
+                border-radius:13px;
+
+                background:
+                    rgba(55,49,79,.95);
+            }
+
+            .navbar-nav{
+                align-items:flex-start;
+            }
+
+            .admin-link{
+                margin-left:0;
+                margin-top:5px;
+            }
+
+            .page{
+                padding:
+                    60px
+                    5%
+                    70px;
+            }
+
+            .overview-bar{
+                grid-template-columns:
+                    repeat(2,1fr);
+            }
+
+            .overview-item:nth-child(2)::after{
+                display:none;
+            }
+        }
+
+
+        @media(max-width:768px){
+
+            .cards-grid{
+                grid-template-columns:1fr;
+            }
+
+            .title{
+                margin-bottom:40px;
+            }
+
+            .title h1{
+                font-size:43px;
+            }
+        }
+
+
+        @media(max-width:576px){
+
+            body{
+                background-attachment:scroll;
+            }
+
+            .navbar-brand{
+                font-size:19px;
+            }
+
+            .brand-icon{
+                width:39px;
+                height:39px;
+            }
+
+            .page{
+                padding:
+                    45px
+                    20px
+                    55px;
+            }
+
+            .title h1{
+                font-size:37px;
+                letter-spacing:-1px;
+            }
+
+            .title p{
+                font-size:13px;
+            }
+
+            .overview-bar{
+                grid-template-columns:1fr;
+
+                padding:15px;
+            }
+
+            .overview-item{
+                justify-content:flex-start;
+
+                padding:9px;
+            }
+
+            .overview-item::after{
+                display:none !important;
+            }
+
+            .card-custom{
+                padding:25px;
+
+                min-height:auto;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     BACKGROUND EFFECTS
+===================================================== -->
+
+<div class="background-effects">
+
+    <div class="grid"></div>
+
+    <div class="glow glow-one"></div>
+    <div class="glow glow-two"></div>
+
+</div>
+
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+
+    <div class="container-fluid p-0">
+
+
+        <!-- BRAND -->
+
+        <a class="navbar-brand"
+           href="{{ url_for('home') }}">
+
+            <span class="brand-icon">
+
+                <i class="bi bi-shield-lock-fill"></i>
+
+            </span>
+
+            <span>
+                XAI<span class="brand-dot">.</span>Shield
+            </span>
+
+        </a>
+
+
+        <!-- MOBILE MENU -->
+
+        <button
+            class="navbar-toggler border-0 shadow-none"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#nav">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+
+        <!-- NAVIGATION -->
+
+        <div class="collapse navbar-collapse"
+             id="nav">
+
+            <div class="navbar-nav ms-auto">
+
+                <a class="nav-link"
+                   href="{{ url_for('home') }}">
+                    Home
+                </a>
+
+                <a class="nav-link active"
+                   href="{{ url_for('about') }}">
+                    About
+                </a>
+
+                <a class="nav-link"
+                   href="{{ url_for('predict') }}">
+                    Predict
+                </a>
+
+                <a class="nav-link admin-link"
+                   href="{{ url_for('admin_login') }}">
+
+                    <i class="bi bi-person-lock me-1"></i>
+                    Admin
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =====================================================
+     ABOUT PAGE
+===================================================== -->
+
+<section class="page">
+
+    <div class="page-container">
+
+
+        <!-- =================================================
+             TITLE
+        ================================================== -->
+
+        <div class="title">
+
+
+            <div class="page-tag">
+
+                <span class="tag-dot"></span>
+
+                EXPLAINABLE NETWORK SECURITY
+
+            </div>
+
+
+            <h1>
+
+                Intelligence You Can
+                <span>Understand.</span>
+
+            </h1>
+
+
+            <p>
+
+                An intelligent intrusion detection framework
+                designed to analyze network communication,
+                identify malicious activities, classify attack
+                types, measure prediction confidence, and
+                explain machine learning decisions for
+                edge–cloud environments.
+
+            </p>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             OVERVIEW
+        ================================================== -->
+
+        <div class="overview-bar">
+
+
+            <div class="overview-item">
+
+                <i class="bi bi-database-check"></i>
+
+                Edge-IIoTset Dataset
+
+            </div>
+
+
+            <div class="overview-item">
+
+                <i class="bi bi-cpu"></i>
+
+                Random Forest
+
+            </div>
+
+
+            <div class="overview-item">
+
+                <i class="bi bi-shield-check"></i>
+
+                Attack Detection
+
+            </div>
+
+
+            <div class="overview-item">
+
+                <i class="bi bi-lightbulb"></i>
+
+                SHAP XAI
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             CARDS
+        ================================================== -->
+
+        <div class="cards-grid">
+
+
+            <!-- =================================================
+                 DATASET
+            ================================================== -->
+
+            <div class="card-custom">
+
+
+                <span class="card-number">
+                    01
+                </span>
+
+
+                <div class="icon">
+
+                    <i class="bi bi-database"></i>
+
+                </div>
+
+
+                <h4>
+                    Edge-IIoTset Dataset
+                </h4>
+
+
+                <p>
+
+                    Network traffic records from the
+                    Edge-IIoTset dataset are used for
+                    training and evaluating the intrusion
+                    detection models. Selected network and
+                    protocol characteristics are processed
+                    to support intelligent traffic analysis.
+
+                </p>
+
+
+                <div class="card-badge-custom">
+
+                    <i class="bi bi-diagram-3"></i>
+
+                    Network Traffic Data
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 RANDOM FOREST
+            ================================================== -->
+
+            <div class="card-custom">
+
+
+                <span class="card-number">
+                    02
+                </span>
+
+
+                <div class="icon">
+
+                    <i class="bi bi-tree"></i>
+
+                </div>
+
+
+                <h4>
+                    Random Forest Intelligence
+                </h4>
+
+
+                <p>
+
+                    Random Forest analyzes the selected
+                    network features and determines whether
+                    the traffic represents Normal or Attack
+                    behavior. When malicious activity is
+                    detected, the system further identifies
+                    the corresponding attack type.
+
+                </p>
+
+
+                <div class="card-badge-custom">
+
+                    <i class="bi bi-cpu"></i>
+
+                    Machine Learning
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 CONFIDENCE
+            ================================================== -->
+
+            <div class="card-custom">
+
+
+                <span class="card-number">
+                    03
+                </span>
+
+
+                <div class="icon">
+
+                    <i class="bi bi-graph-up-arrow"></i>
+
+                </div>
+
+
+                <h4>
+                    Confidence Analysis
+                </h4>
+
+
+                <p>
+
+                    Prediction probabilities generated by
+                    the trained model are converted into
+                    confidence percentages. The application
+                    presents the prediction confidence using
+                    Low, Medium, or High levels to provide
+                    clearer interpretation of each result.
+
+                </p>
+
+
+                <div class="card-badge-custom">
+
+                    <i class="bi bi-speedometer2"></i>
+
+                    Low • Medium • High
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 SHAP
+            ================================================== -->
+
+            <div class="card-custom">
+
+
+                <span class="card-number">
+                    04
+                </span>
+
+
+                <div class="icon">
+
+                    <i class="bi bi-lightbulb"></i>
+
+                </div>
+
+
+                <h4>
+                    SHAP Explainability
+                </h4>
+
+
+                <p>
+
+                    SHAP identifies the contribution of
+                    individual network features toward each
+                    model decision. This enables users to
+                    understand which characteristics
+                    influenced the Normal or Attack
+                    prediction produced by the model.
+
+                </p>
+
+
+                <div class="card-badge-custom">
+
+                    <i class="bi bi-eye"></i>
+
+                    Explainable AI
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     BOOTSTRAP
+===================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+
+<!-- =====================================================
+     SCROLL REVEAL
+===================================================== -->
+
+<script>
+
+    const cards =
+        document.querySelectorAll(
+            ".card-custom"
+        );
+
+
+    const observer =
+        new IntersectionObserver(
+
+            (entries) => {
+
+                entries.forEach(
+
+                    (entry) => {
+
+                        if(entry.isIntersecting){
+
+                            const allCards =
+                                Array.from(cards);
+
+                            const index =
+                                allCards.indexOf(
+                                    entry.target
+                                );
+
+
+                            setTimeout(
+
+                                () => {
+
+                                    entry.target
+                                        .classList
+                                        .add(
+                                            "visible"
+                                        );
+
+                                },
+
+                                index * 130
+
+                            );
+
+
+                            observer.unobserve(
+                                entry.target
+                            );
+
+                        }
+
+                    }
+
+                );
+
+            },
+
+            {
+                threshold:.15
+            }
+
+        );
+
+
+    cards.forEach(
+
+        card => {
+
+            observer.observe(card);
+
+        }
+
+    );
+
+</script>
+
+
+</body>
+</html>

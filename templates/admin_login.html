@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Login | XAI Shield</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+          rel="stylesheet">
+
+    <style>
+
+        /* =====================================================
+           ROOT
+        ===================================================== */
+
+        :root{
+            --primary:#8b5cf6;
+            --primary-dark:#6d28d9;
+            --primary-light:#c4b5fd;
+
+            --cyan:#38bdf8;
+            --cyan-light:#7dd3fc;
+
+            --white:#ffffff;
+            --text:#f8f7ff;
+            --muted:#c7c1d5;
+
+            --border:rgba(221,214,254,.22);
+        }
+
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        html,
+        body{
+            min-height:100%;
+        }
+
+        body{
+            min-height:100vh;
+
+            font-family:"Segoe UI", Arial, sans-serif;
+
+            color:var(--text);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(39,34,58,.70),
+                    rgba(48,44,73,.64),
+                    rgba(52,46,76,.70)
+                ),
+                url("{{ url_for('static', filename='images/admin.jpg') }}");
+
+            background-size:cover;
+            background-position:center;
+            background-repeat:no-repeat;
+            background-attachment:fixed;
+
+            overflow-x:hidden;
+        }
+
+        a{
+            text-decoration:none;
+        }
+
+
+        /* =====================================================
+           BACKGROUND EFFECTS
+        ===================================================== */
+
+        .background-effects{
+            position:fixed;
+            inset:0;
+
+            z-index:0;
+
+            overflow:hidden;
+
+            pointer-events:none;
+        }
+
+
+        /* GRID */
+
+        .grid{
+            position:absolute;
+            inset:0;
+
+            background-image:
+                linear-gradient(
+                    rgba(196,181,253,.035) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(196,181,253,.035) 1px,
+                    transparent 1px
+                );
+
+            background-size:60px 60px;
+
+            opacity:.40;
+
+            animation:gridMove 18s linear infinite;
+        }
+
+        @keyframes gridMove{
+
+            from{
+                transform:translateY(0);
+            }
+
+            to{
+                transform:translateY(60px);
+            }
+        }
+
+
+        /* =====================================================
+           GLOW EFFECT
+        ===================================================== */
+
+        .glow{
+            position:absolute;
+
+            border-radius:50%;
+
+            filter:blur(110px);
+        }
+
+        .glow-one{
+            width:430px;
+            height:430px;
+
+            right:-140px;
+            top:50px;
+
+            background:
+                rgba(139,92,246,.20);
+
+            animation:
+                glowMove 8s ease-in-out infinite;
+        }
+
+        .glow-two{
+            width:380px;
+            height:380px;
+
+            left:-150px;
+            bottom:-70px;
+
+            background:
+                rgba(56,189,248,.11);
+
+            animation:
+                glowMove 10s ease-in-out infinite reverse;
+        }
+
+        @keyframes glowMove{
+
+            0%,100%{
+                transform:translate(0,0);
+            }
+
+            50%{
+                transform:translate(30px,-30px);
+            }
+        }
+
+
+        /* =====================================================
+           PARTICLES
+        ===================================================== */
+
+        .particle{
+            position:absolute;
+
+            width:4px;
+            height:4px;
+
+            border-radius:50%;
+
+            background:#ddd6fe;
+
+            box-shadow:
+                0 0 12px #c4b5fd;
+
+            opacity:0;
+
+            animation:
+                particleMove 8s linear infinite;
+        }
+
+        .particle:nth-child(4){
+            left:12%;
+            bottom:0;
+            animation-delay:0s;
+        }
+
+        .particle:nth-child(5){
+            left:30%;
+            bottom:0;
+            animation-delay:2s;
+        }
+
+        .particle:nth-child(6){
+            left:65%;
+            bottom:0;
+            animation-delay:4s;
+        }
+
+        .particle:nth-child(7){
+            left:85%;
+            bottom:0;
+            animation-delay:1s;
+        }
+
+        @keyframes particleMove{
+
+            0%{
+                transform:translateY(0);
+                opacity:0;
+            }
+
+            20%{
+                opacity:.55;
+            }
+
+            80%{
+                opacity:.25;
+            }
+
+            100%{
+                transform:translateY(-700px);
+                opacity:0;
+            }
+        }
+
+
+        /* =====================================================
+           TOP BRAND
+        ===================================================== */
+
+        .top-brand{
+            position:absolute;
+
+            top:28px;
+            left:5%;
+
+            z-index:10;
+
+            display:flex;
+            align-items:center;
+
+            gap:12px;
+
+            color:#fff;
+
+            font-size:21px;
+            font-weight:750;
+        }
+
+        .brand-icon{
+            position:relative;
+
+            width:44px;
+            height:44px;
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+
+            border-radius:13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #c4b5fd,
+                    #8b5cf6,
+                    #6d28d9
+                );
+
+            box-shadow:
+                0 8px 25px
+                rgba(109,40,217,.35);
+        }
+
+        .brand-icon::after{
+            content:"";
+
+            position:absolute;
+
+            inset:-5px;
+
+            border:
+                1px solid
+                rgba(196,181,253,.30);
+
+            border-radius:16px;
+
+            animation:
+                brandPulse 2.5s ease-in-out infinite;
+        }
+
+        @keyframes brandPulse{
+
+            0%,100%{
+                transform:scale(.95);
+                opacity:.7;
+            }
+
+            50%{
+                transform:scale(1.14);
+                opacity:0;
+            }
+        }
+
+        .brand-icon i{
+            font-size:20px;
+        }
+
+        .brand-dot{
+            color:#c4b5fd;
+        }
+
+
+        /* =====================================================
+           MAIN PAGE
+        ===================================================== */
+
+        .login-page{
+            position:relative;
+
+            z-index:2;
+
+            min-height:100vh;
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+
+            padding:100px 20px 60px;
+        }
+
+
+        /* =====================================================
+           LOGIN WRAPPER
+        ===================================================== */
+
+        .login-wrapper{
+            width:100%;
+            max-width:470px;
+
+            position:relative;
+        }
+
+
+        /* =====================================================
+           LOGIN CARD
+        ===================================================== */
+
+        .login-card{
+            position:relative;
+
+            width:100%;
+
+            padding:42px 40px 35px;
+
+            overflow:hidden;
+
+            border:
+                1px solid
+                rgba(221,214,254,.25);
+
+            border-radius:24px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(74,65,103,.82),
+                    rgba(48,42,72,.84)
+                );
+
+            backdrop-filter:blur(25px);
+            -webkit-backdrop-filter:blur(25px);
+
+            box-shadow:
+                0 35px 90px
+                rgba(22,17,43,.35),
+
+                inset 0 1px 0
+                rgba(255,255,255,.10);
+
+            animation:
+                cardEntry .8s ease both;
+        }
+
+        @keyframes cardEntry{
+
+            from{
+                opacity:0;
+
+                transform:
+                    translateY(30px)
+                    scale(.97);
+            }
+
+            to{
+                opacity:1;
+
+                transform:
+                    translateY(0)
+                    scale(1);
+            }
+        }
+
+
+        /* TOP LIGHT */
+
+        .login-card::before{
+            content:"";
+
+            position:absolute;
+
+            top:0;
+            left:15%;
+
+            width:70%;
+            height:1px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    #c4b5fd,
+                    #38bdf8,
+                    transparent
+                );
+
+            opacity:.80;
+        }
+
+
+        /* BACKGROUND GLOW */
+
+        .login-card::after{
+            content:"";
+
+            position:absolute;
+
+            width:270px;
+            height:270px;
+
+            top:-180px;
+            right:-130px;
+
+            border-radius:50%;
+
+            background:
+                rgba(167,139,250,.14);
+
+            pointer-events:none;
+        }
+
+
+        /* =====================================================
+           SECURITY ICON
+        ===================================================== */
+
+        .security-icon-wrapper{
+            position:relative;
+
+            width:94px;
+            height:94px;
+
+            margin:
+                0 auto
+                23px;
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+
+        .security-ring{
+            position:absolute;
+
+            inset:0;
+
+            border-radius:50%;
+
+            border:
+                1px dashed
+                rgba(196,181,253,.45);
+
+            animation:
+                ringRotate 10s linear infinite;
+        }
+
+        @keyframes ringRotate{
+
+            to{
+                transform:rotate(360deg);
+            }
+        }
+
+        .security-ring::before{
+            content:"";
+
+            position:absolute;
+
+            width:8px;
+            height:8px;
+
+            top:8px;
+            left:18px;
+
+            border-radius:50%;
+
+            background:#c4b5fd;
+
+            box-shadow:
+                0 0 14px
+                #a78bfa;
+        }
+
+        .security-ring::after{
+            content:"";
+
+            position:absolute;
+
+            width:7px;
+            height:7px;
+
+            bottom:12px;
+            right:15px;
+
+            border-radius:50%;
+
+            background:#7dd3fc;
+
+            box-shadow:
+                0 0 14px
+                #38bdf8;
+        }
+
+
+        .icon{
+            position:relative;
+
+            z-index:2;
+
+            width:70px;
+            height:70px;
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+
+            border-radius:20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(196,181,253,.28),
+                    rgba(139,92,246,.32)
+                );
+
+            border:
+                1px solid
+                rgba(221,214,254,.25);
+
+            color:#ede9fe;
+
+            font-size:29px;
+
+            box-shadow:
+                0 15px 40px
+                rgba(76,44,145,.25);
+
+            animation:
+                iconFloat 3.5s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat{
+
+            0%,100%{
+                transform:translateY(0);
+            }
+
+            50%{
+                transform:translateY(-5px);
+            }
+        }
+
+
+        /* =====================================================
+           LOGIN HEADER
+        ===================================================== */
+
+        .login-header{
+            position:relative;
+
+            z-index:2;
+
+            text-align:center;
+
+            margin-bottom:29px;
+        }
+
+        .admin-badge{
+            display:inline-flex;
+            align-items:center;
+
+            gap:7px;
+
+            margin-bottom:11px;
+
+            padding:6px 10px;
+
+            border:
+                1px solid
+                rgba(221,214,254,.18);
+
+            border-radius:20px;
+
+            background:
+                rgba(139,92,246,.12);
+
+            color:#ddd6fe;
+
+            font-size:9px;
+            font-weight:700;
+
+            letter-spacing:1.2px;
+        }
+
+        .admin-badge span{
+            width:6px;
+            height:6px;
+
+            border-radius:50%;
+
+            background:#c4b5fd;
+
+            animation:
+                statusPulse 1.8s infinite;
+        }
+
+        @keyframes statusPulse{
+
+            0%,100%{
+                box-shadow:
+                    0 0 0 3px
+                    rgba(196,181,253,.15);
+            }
+
+            50%{
+                box-shadow:
+                    0 0 0 8px
+                    rgba(196,181,253,0);
+            }
+        }
+
+        .login-header h2{
+            margin:0;
+
+            color:#fff;
+
+            font-size:30px;
+            font-weight:800;
+
+            letter-spacing:-.8px;
+        }
+
+        .login-header h2 span{
+            background:
+                linear-gradient(
+                    90deg,
+                    #ddd6fe,
+                    #a78bfa,
+                    #7dd3fc
+                );
+
+            -webkit-background-clip:text;
+            background-clip:text;
+
+            color:transparent;
+        }
+
+        .subtitle{
+            margin:
+                9px 0
+                0;
+
+            color:#cbc4d5;
+
+            font-size:12px;
+
+            line-height:1.6;
+        }
+
+
+        /* =====================================================
+           ALERT
+        ===================================================== */
+
+        .alert{
+            position:relative;
+
+            z-index:5;
+
+            padding:11px 13px;
+
+            border-radius:9px;
+
+            font-size:12px;
+        }
+
+
+        /* =====================================================
+           FORM
+        ===================================================== */
+
+        form{
+            position:relative;
+            z-index:2;
+        }
+
+        .field-group{
+            margin-bottom:20px;
+        }
+
+        .field-group label{
+            display:flex;
+            align-items:center;
+
+            gap:7px;
+
+            margin-bottom:8px;
+
+            color:#e4deea;
+
+            font-size:12px;
+            font-weight:600;
+        }
+
+        .field-group label i{
+            color:#c4b5fd;
+        }
+
+
+        /* =====================================================
+           INPUT WRAPPER
+        ===================================================== */
+
+        .input-wrapper{
+            position:relative;
+        }
+
+        .input-icon{
+            position:absolute;
+
+            left:15px;
+            top:50%;
+
+            transform:translateY(-50%);
+
+            color:#aaa1ba;
+
+            font-size:14px;
+
+            pointer-events:none;
+
+            transition:.3s ease;
+        }
+
+
+        .form-control{
+            height:51px;
+
+            padding:
+                10px
+                45px
+                10px
+                43px;
+
+            border:
+                1px solid
+                rgba(221,214,254,.18);
+
+            border-radius:11px;
+
+            background:
+                rgba(36,31,55,.65);
+
+            color:#fff;
+
+            font-size:13px;
+
+            transition:.3s ease;
+        }
+
+        .form-control:hover{
+            border-color:
+                rgba(196,181,253,.38);
+
+            background:
+                rgba(42,36,64,.76);
+        }
+
+        .form-control:focus{
+            background:
+                rgba(42,36,64,.92);
+
+            color:#fff;
+
+            border-color:#a78bfa;
+
+            box-shadow:
+                0 0 0 .20rem
+                rgba(139,92,246,.12);
+        }
+
+        .form-control::placeholder{
+            color:#8e859d;
+            font-size:11px;
+        }
+
+        .input-wrapper:focus-within
+        .input-icon{
+            color:#c4b5fd;
+        }
+
+
+        /* =====================================================
+           PASSWORD TOGGLE
+        ===================================================== */
+
+        .password-toggle{
+            position:absolute;
+
+            right:14px;
+            top:50%;
+
+            transform:translateY(-50%);
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+
+            width:30px;
+            height:30px;
+
+            border:none;
+
+            background:transparent;
+
+            color:#aaa1ba;
+
+            cursor:pointer;
+
+            transition:.3s ease;
+        }
+
+        .password-toggle:hover{
+            color:#ddd6fe;
+        }
+
+
+        /* =====================================================
+           LOGIN BUTTON
+        ===================================================== */
+
+        .login-btn{
+            position:relative;
+
+            width:100%;
+            height:52px;
+
+            margin-top:7px;
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+
+            gap:10px;
+
+            overflow:hidden;
+
+            border:none;
+
+            border-radius:11px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #a78bfa,
+                    #8b5cf6,
+                    #6d28d9
+                );
+
+            color:#fff;
+
+            font-size:13px;
+            font-weight:700;
+
+            box-shadow:
+                0 13px 35px
+                rgba(76,44,145,.32);
+
+            transition:.35s ease;
+        }
+
+        .login-btn::before{
+            content:"";
+
+            position:absolute;
+
+            top:-30%;
+            left:-90px;
+
+            width:60px;
+            height:160%;
+
+            transform:skewX(-20deg);
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255,255,255,.45),
+                    transparent
+                );
+
+            transition:.7s ease;
+        }
+
+        .login-btn:hover{
+            transform:translateY(-3px);
+
+            box-shadow:
+                0 18px 45px
+                rgba(76,44,145,.48);
+        }
+
+        .login-btn:hover::before{
+            left:130%;
+        }
+
+        .login-btn .arrow{
+            transition:.3s ease;
+        }
+
+        .login-btn:hover .arrow{
+            transform:translateX(5px);
+        }
+
+
+        /* =====================================================
+           DIVIDER
+        ===================================================== */
+
+        .divider{
+            position:relative;
+
+            z-index:2;
+
+            display:flex;
+            align-items:center;
+
+            gap:13px;
+
+            margin:25px 0 18px;
+
+            color:#92899f;
+
+            font-size:9px;
+
+            letter-spacing:1px;
+        }
+
+        .divider::before,
+        .divider::after{
+            content:"";
+
+            flex:1;
+
+            height:1px;
+
+            background:
+                rgba(221,214,254,.13);
+        }
+
+
+        /* =====================================================
+           BACK HOME
+        ===================================================== */
+
+        .home-link{
+            position:relative;
+
+            z-index:2;
+
+            width:100%;
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+
+            gap:8px;
+
+            color:#d7d0e1;
+
+            font-size:12px;
+            font-weight:600;
+
+            transition:.3s ease;
+        }
+
+        .home-link i{
+            transition:.3s ease;
+        }
+
+        .home-link:hover{
+            color:#fff;
+        }
+
+        .home-link:hover i{
+            transform:translateX(-5px);
+
+            color:#c4b5fd;
+        }
+
+
+        /* =====================================================
+           SECURITY FOOTER
+        ===================================================== */
+
+        .security-footer{
+            position:relative;
+
+            z-index:2;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            gap:7px;
+
+            margin-top:24px;
+
+            color:#948b9f;
+
+            font-size:9px;
+        }
+
+        .security-footer i{
+            color:#a78bfa;
+        }
+
+
+        /* =====================================================
+           SIDE DECORATIONS
+        ===================================================== */
+
+        .side-line{
+            position:absolute;
+
+            z-index:-1;
+
+            width:130px;
+            height:130px;
+
+            border:
+                1px solid
+                rgba(196,181,253,.14);
+
+            border-radius:25px;
+
+            transform:rotate(45deg);
+        }
+
+        .side-line-one{
+            top:-35px;
+            left:-65px;
+
+            animation:
+                decorationFloat 6s ease-in-out infinite;
+        }
+
+        .side-line-two{
+            right:-65px;
+            bottom:-35px;
+
+            animation:
+                decorationFloat 7s ease-in-out infinite reverse;
+        }
+
+        @keyframes decorationFloat{
+
+            0%,100%{
+                transform:
+                    rotate(45deg)
+                    translateY(0);
+            }
+
+            50%{
+                transform:
+                    rotate(45deg)
+                    translateY(-10px);
+            }
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media(max-width:600px){
+
+            body{
+                background-attachment:scroll;
+            }
+
+            .top-brand{
+                top:20px;
+                left:20px;
+
+                font-size:18px;
+            }
+
+            .brand-icon{
+                width:39px;
+                height:39px;
+            }
+
+            .login-page{
+                padding:
+                    90px
+                    17px
+                    40px;
+            }
+
+            .login-card{
+                padding:
+                    35px
+                    24px
+                    30px;
+            }
+
+            .login-header h2{
+                font-size:27px;
+            }
+
+            .security-icon-wrapper{
+                width:85px;
+                height:85px;
+            }
+
+            .icon{
+                width:64px;
+                height:64px;
+            }
+
+        }
+
+
+        @media(prefers-reduced-motion:reduce){
+
+            *,
+            *::before,
+            *::after{
+                animation-duration:.01ms !important;
+                animation-iteration-count:1 !important;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     BACKGROUND EFFECTS
+===================================================== -->
+
+<div class="background-effects">
+
+    <div class="grid"></div>
+
+    <div class="glow glow-one"></div>
+    <div class="glow glow-two"></div>
+
+    <span class="particle"></span>
+    <span class="particle"></span>
+    <span class="particle"></span>
+    <span class="particle"></span>
+
+</div>
+
+
+
+<!-- =====================================================
+     BRAND
+===================================================== -->
+
+<a href="{{ url_for('home') }}"
+   class="top-brand">
+
+    <span class="brand-icon">
+
+        <i class="bi bi-shield-lock-fill"></i>
+
+    </span>
+
+    <span>
+
+        XAI<span class="brand-dot">.</span>Shield
+
+    </span>
+
+</a>
+
+
+
+<!-- =====================================================
+     LOGIN PAGE
+===================================================== -->
+
+<main class="login-page">
+
+
+    <div class="login-wrapper">
+
+
+        <!-- DECORATION -->
+
+        <div class="side-line side-line-one"></div>
+        <div class="side-line side-line-two"></div>
+
+
+
+        <!-- =================================================
+             LOGIN CARD
+        ================================================== -->
+
+        <div class="login-card">
+
+
+            <!-- SECURITY ICON -->
+
+            <div class="security-icon-wrapper">
+
+
+                <div class="security-ring"></div>
+
+
+                <div class="icon">
+
+                    <i class="bi bi-person-lock"></i>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 HEADER
+            ================================================== -->
+
+            <div class="login-header">
+
+
+                <div class="admin-badge">
+
+                    <span></span>
+
+                    SECURE ADMIN ACCESS
+
+                </div>
+
+
+                <h2>
+
+                    Admin <span>Login</span>
+
+                </h2>
+
+
+                <p class="subtitle">
+
+                    Authenticate to access the intrusion
+                    monitoring and security analysis dashboard.
+
+                </p>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 FLASH MESSAGES
+            ================================================== -->
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% for category, message in messages %}
+
+                    <div class="alert alert-{{ category }}">
+
+                        <i class="bi bi-info-circle me-1"></i>
+
+                        {{ message }}
+
+                    </div>
+
+                {% endfor %}
+
+            {% endwith %}
+
+
+
+            <!-- =================================================
+                 LOGIN FORM
+            ================================================== -->
+
+            <form method="POST">
+
+
+                <!-- USERNAME -->
+
+                <div class="field-group">
+
+
+                    <label for="username">
+
+                        <i class="bi bi-person"></i>
+
+                        Username
+
+                    </label>
+
+
+                    <div class="input-wrapper">
+
+
+                        <i class="bi bi-person-circle input-icon"></i>
+
+
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            class="form-control"
+                            placeholder="Enter admin username"
+                            autocomplete="username"
+                            required
+                        >
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- PASSWORD -->
+
+                <div class="field-group">
+
+
+                    <label for="password">
+
+                        <i class="bi bi-key"></i>
+
+                        Password
+
+                    </label>
+
+
+                    <div class="input-wrapper">
+
+
+                        <i class="bi bi-lock input-icon"></i>
+
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            class="form-control"
+                            placeholder="Enter admin password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            id="passwordToggle"
+                            aria-label="Show password">
+
+
+                            <i
+                                class="bi bi-eye"
+                                id="eyeIcon">
+                            </i>
+
+
+                        </button>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- LOGIN BUTTON -->
+
+                <button
+                    class="login-btn"
+                    type="submit">
+
+
+                    <i class="bi bi-shield-lock"></i>
+
+                    Secure Login
+
+                    <i class="bi bi-arrow-right arrow"></i>
+
+
+                </button>
+
+
+            </form>
+
+
+
+            <!-- =================================================
+                 DIVIDER
+            ================================================== -->
+
+            <div class="divider">
+
+                XAI SHIELD
+
+            </div>
+
+
+
+            <!-- =================================================
+                 HOME LINK
+            ================================================== -->
+
+            <a
+                href="{{ url_for('home') }}"
+                class="home-link">
+
+
+                <i class="bi bi-arrow-left"></i>
+
+                Back to Home
+
+
+            </a>
+
+
+
+            <!-- =================================================
+                 FOOTER
+            ================================================== -->
+
+            <div class="security-footer">
+
+
+                <i class="bi bi-shield-check"></i>
+
+                Protected Administrative Access
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     BOOTSTRAP
+===================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+
+<!-- =====================================================
+     SHOW / HIDE PASSWORD
+===================================================== -->
+
+<script>
+
+    const password =
+        document.getElementById("password");
+
+    const passwordToggle =
+        document.getElementById("passwordToggle");
+
+    const eyeIcon =
+        document.getElementById("eyeIcon");
+
+
+    passwordToggle.addEventListener(
+        "click",
+        function(){
+
+
+            if(password.type === "password"){
+
+                password.type = "text";
+
+                eyeIcon.classList.remove(
+                    "bi-eye"
+                );
+
+                eyeIcon.classList.add(
+                    "bi-eye-slash"
+                );
+
+                passwordToggle.setAttribute(
+                    "aria-label",
+                    "Hide password"
+                );
+
+            }
+
+            else{
+
+                password.type = "password";
+
+                eyeIcon.classList.remove(
+                    "bi-eye-slash"
+                );
+
+                eyeIcon.classList.add(
+                    "bi-eye"
+                );
+
+                passwordToggle.setAttribute(
+                    "aria-label",
+                    "Show password"
+                );
+
+            }
+
+
+        }
+    );
+
+</script>
+
+
+</body>
+</html>
